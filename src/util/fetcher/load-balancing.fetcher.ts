@@ -32,10 +32,10 @@ export class LoadBalancingFetcher {
     return describeLoadBalancersResponse.LoadBalancers;
   }
 
-  async describeListeners(loadBalancerArn: string) {
+  async getTargetGroupArns(loadBalancerArn: string) {
     const listenersCommand = new DescribeListenersCommand({ LoadBalancerArn: loadBalancerArn });
     const describeListenersResponse = await this.elbClient.send(listenersCommand);
-    return describeListenersResponse.Listeners;
+    return this.getTargetGroupArnsFromListeners(describeListenersResponse.Listeners);
   }
 
   async describeTargetGroups(targetGroups: string[]) {
@@ -48,5 +48,19 @@ export class LoadBalancingFetcher {
     const targetHealthCommand = new DescribeTargetHealthCommand({ TargetGroupArn: targetGroupArn });
     const targetHealthResponse = await this.elbClient.send(targetHealthCommand);
     return targetHealthResponse.TargetHealthDescriptions;
+  }
+
+  private getTargetGroupArnsFromListeners(listeners) {
+    const targetGroups = [];
+    for (const listener of listeners) {
+      if (listener.DefaultActions) {
+        for (const action of listener.DefaultActions) {
+          if (action.TargetGroupArn) {
+            targetGroups.push(action.TargetGroupArn);
+          }
+        }
+      }
+    }
+    return targetGroups;
   }
 }
