@@ -85,6 +85,8 @@ describe('AWS Manager Test', () => {
   });
 
   it('aws authorization command', async () => {
+    const username: string = 'tatum';
+
     const iamClient = new IAMClient({
       region: process.env.AWS_REGION,
       credentials: fromTemporaryCredentials({
@@ -96,13 +98,13 @@ describe('AWS Manager Test', () => {
       }),
     });
 
-    const listUserPoliciesCommand = new ListUserPoliciesCommand({ UserName: process.env.AWS_IAM_USERNAME });
+    const listUserPoliciesCommand = new ListUserPoliciesCommand({ UserName: username });
     const listUserPoliciesResponse = await iamClient.send(listUserPoliciesCommand);
     console.log('listUserPoliciesResponse:', listUserPoliciesResponse);
 
     for (const policyName of listUserPoliciesResponse.PolicyNames) {
       const getUserPolicyCommand = new GetUserPolicyCommand({
-        UserName: process.env.AWS_IAM_USERNAME,
+        UserName: username,
         PolicyName: policyName,
       });
       const getUserPolicyResponse = await iamClient.send(getUserPolicyCommand);
