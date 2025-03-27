@@ -7,21 +7,21 @@ import {
   ListAttachedRolePoliciesCommand,
   ListUserPoliciesCommand,
 } from '@aws-sdk/client-iam';
-import process from 'node:process';
 import { fromTemporaryCredentials } from '@aws-sdk/credential-providers';
+import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class IamFetcher {
   private readonly iamClient: IAMClient;
 
-  constructor() {
+  constructor(private readonly configService: ConfigService) {
     this.iamClient = new IAMClient({
-      region: process.env.AWS_REGION,
+      region: configService.get('AWS_REGION'),
       credentials: fromTemporaryCredentials({
-        clientConfig: { region: process.env.AWS_REGION },
+        clientConfig: { region: configService.get('AWS_REGION') },
         params: {
-          RoleArn: process.env.AWS_ROLE_ARN,
-          RoleSessionName: process.env.AWS_ROLE_SESSION_NAME,
+          RoleArn: configService.get('AWS_ROLE_ARN'),
+          RoleSessionName: configService.get('AWS_ROLE_SESSION_NAME'),
         },
       }),
     });

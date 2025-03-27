@@ -5,22 +5,22 @@ import {
   DescribeTargetHealthCommand,
   ElasticLoadBalancingV2Client,
 } from '@aws-sdk/client-elastic-load-balancing-v2';
-import process from 'node:process';
 import { fromTemporaryCredentials } from '@aws-sdk/credential-providers';
 import { Injectable } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class LoadBalancingFetcher {
   private readonly elbClient: ElasticLoadBalancingV2Client;
 
-  constructor() {
+  constructor(private readonly configService: ConfigService) {
     this.elbClient = new ElasticLoadBalancingV2Client({
-      region: process.env.AWS_REGION,
+      region: configService.get('AWS_REGION'),
       credentials: fromTemporaryCredentials({
-        clientConfig: { region: process.env.AWS_REGION },
+        clientConfig: { region: configService.get('AWS_REGION') },
         params: {
-          RoleArn: process.env.AWS_ROLE_ARN,
-          RoleSessionName: process.env.AWS_ROLE_SESSION_NAME,
+          RoleArn: configService.get('AWS_ROLE_ARN'),
+          RoleSessionName: configService.get('AWS_ROLE_SESSION_NAME'),
         },
       }),
     });
