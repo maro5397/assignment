@@ -5,8 +5,8 @@ import { AWSManager } from './util/manager/aws.manager';
 import { GCPManager } from './util/manager/gcp.manager';
 import { AzureManager } from './util/manager/azure.manager';
 import { ConfigModule } from '@nestjs/config';
-import { AwsIamFetcher } from './util/fetcher/aws-iam.fetcher';
-import { AwsLoadBalancingFetcher } from './util/fetcher/aws-load-balancing.fetcher';
+import { AwsIamFetcher } from './util/fetcher/aws/aws-iam.fetcher';
+import { AwsLoadBalancingFetcher } from './util/fetcher/aws/aws-load-balancing.fetcher';
 
 @Module({
   imports: [ConfigModule.forRoot()],

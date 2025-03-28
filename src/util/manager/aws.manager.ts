@@ -1,8 +1,8 @@
 import { Inject, Injectable, Logger } from '@nestjs/common';
 import { ResourceType } from '../../common/type';
 import { RESOURCE_TYPE } from '../../common/enum';
-import { AwsIamFetcher } from '../fetcher/aws-iam.fetcher';
-import { AwsLoadBalancingFetcher } from '../fetcher/aws-load-balancing.fetcher';
+import { AwsIamFetcher } from '../fetcher/aws/aws-iam.fetcher';
+import { AwsLoadBalancingFetcher } from '../fetcher/aws/aws-load-balancing.fetcher';
 
 @Injectable()
 export class AWSManager {
