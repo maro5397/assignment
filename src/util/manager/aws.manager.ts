@@ -1,8 +1,8 @@
 import { Inject, Injectable, Logger } from '@nestjs/common';
 import { ResourceType } from '../../common/type';
 import { RESOURCE_TYPE } from '../../common/enum';
-import { IamFetcher } from '../fetcher/iam.fetcher';
-import { LoadBalancingFetcher } from '../fetcher/load-balancing.fetcher';
+import { AwsIamFetcher } from '../fetcher/aws-iam.fetcher';
+import { AwsLoadBalancingFetcher } from '../fetcher/aws-load-balancing.fetcher';
 
 @Injectable()
 export class AWSManager {
@@ -10,8 +10,8 @@ export class AWSManager {
   private readonly ASSUME_ROLE_ACTION = 'sts:AssumeRole';
 
   constructor(
-    @Inject() private readonly iamFetcher: IamFetcher,
-    @Inject() private readonly loadBalancingFetcher: LoadBalancingFetcher,
+    @Inject() private readonly iamFetcher: AwsIamFetcher,
+    @Inject() private readonly loadBalancingFetcher: AwsLoadBalancingFetcher,
   ) {}
 
   async getRelationships(resource: ResourceType, name: string) {
