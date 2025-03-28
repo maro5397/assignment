@@ -11,7 +11,7 @@ import { fromTemporaryCredentials } from '@aws-sdk/credential-providers';
 import { ConfigService } from '@nestjs/config';
 
 @Injectable()
-export class IamFetcher {
+export class AwsIamFetcher {
   private readonly iamClient: IAMClient;
 
   constructor(private readonly configService: ConfigService) {

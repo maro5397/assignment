@@ -10,7 +10,7 @@ import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 
 @Injectable()
-export class LoadBalancingFetcher {
+export class AwsLoadBalancingFetcher {
   private readonly elbClient: ElasticLoadBalancingV2Client;
 
   constructor(private readonly configService: ConfigService) {
