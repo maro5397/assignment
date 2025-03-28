@@ -1,5 +1,5 @@
 import { Injectable, Logger } from '@nestjs/common';
-import { ResourceType } from "../../common/type";
+import { ResourceType } from '../../common/type';
 
 @Injectable()
 export class GCPManager {
