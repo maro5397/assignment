@@ -73,11 +73,7 @@ describe('AZURE Manager Test', () => {
       const assignmentParts = assignment.scope.split('/');
       if (assignmentParts[assignmentParts.length - 1] === user) {
         const roleDefinition = await authClient.roleDefinitions.getById(assignment.roleDefinitionId);
-        assignedRoles.push({
-          roleName: roleDefinition.roleName,
-          roleType: roleDefinition.roleType,
-          description: roleDefinition.description,
-        });
+        assignedRoles.push(roleDefinition);
       }
     }
     console.log(assignedRoles);
