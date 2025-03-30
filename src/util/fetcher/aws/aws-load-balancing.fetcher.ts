@@ -14,16 +14,16 @@ export class AwsLoadBalancingFetcher {
   private readonly elbClient: ElasticLoadBalancingV2Client;
 
   constructor(private readonly configService: ConfigService) {
-    this.elbClient = new ElasticLoadBalancingV2Client({
-      region: configService.get('AWS_REGION'),
-      credentials: fromTemporaryCredentials({
-        clientConfig: { region: configService.get('AWS_REGION') },
-        params: {
-          RoleArn: configService.get('AWS_ROLE_ARN'),
-          RoleSessionName: configService.get('AWS_ROLE_SESSION_NAME'),
-        },
-      }),
-    });
+    const config = { region: configService.get('AWS_REGION'), credentials: undefined };
+    const roleArn = configService.get('AWS_ROLE_ARN');
+    const roleSessionName = configService.get('AWS_ROLE_SESSION_NAME');
+    if (roleArn && roleSessionName) {
+      config.credentials = fromTemporaryCredentials({
+        clientConfig: { region: config.region },
+        params: { RoleArn: roleArn, RoleSessionName: roleSessionName },
+      });
+    }
+    this.elbClient = new ElasticLoadBalancingV2Client(config);
   }
 
   async describeLoadBalancers(names: string[]) {
